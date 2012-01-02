@@ -1,5 +1,5 @@
 
-import java.util.List;
+import java.util.ArrayList;
 
 /**
  *
@@ -7,13 +7,19 @@ import java.util.List;
  */
 public class BinomialQueue {
 
-    private List<Node> _binomialQueue;
+    private ArrayList<GenericNode> _binomialQueue;
 
     /**
      * Constructor
      */
     public BinomialQueue() {
-        this._binomialQueue = null;
+        this._binomialQueue = new ArrayList<GenericNode>();
+    }
+
+    public BinomialQueue(int item) {
+        GenericNode node = new GenericNode(item);
+        this._binomialQueue = new ArrayList<GenericNode>();
+        this._binomialQueue.add(node);
     }
 
     /**
@@ -23,32 +29,14 @@ public class BinomialQueue {
         this._binomialQueue.add(null);
     }
 
-    /**
-     * Une dos nodos en uno
-     * @param p
-     * @param q
-     * @return union de ambos nod
-     */
-    private Node mergeNodes(Node p, Node q) {
+    private GenericNode joinNodes(GenericNode p, GenericNode q) {
 
-        /*
-         * Si el valor de p es mayor que q, entonces se inserta el hijo derecho
-         * de p en el hijo izquierdo de q. Luego, se setea el hijo derecho de p
-         * como q.
-         * 
-         */
-        if (p.getValue() > q.getValue()) {
-            q.setLeftChild(p.getRightChild());
-            p.setRightChild(q);
+        if (p.getValue() < q.getValue()) {
+            p.addChild(q);
             return p;
         }
 
-        /* 
-         * Si el valor de q es mayor que el de p, se hace el proceso inverso.
-         * 
-         */
-        p.setLeftChild(q.getRightChild());
-        q.setRightChild(p);
+        q.addChild(p);
         return q;
     }
 
@@ -58,43 +46,38 @@ public class BinomialQueue {
      */
     public void insertItem(int item) {
 
-        Node newNode = new Node(item);
+        GenericNode node = new GenericNode(item);
 
         for (int i = 0; i <= this._binomialQueue.size(); i++) {
 
-            /*
-             * Si llegue al final de la lista y aun no encuentro una
-             * posicion libre, hago crecer la cola. 
-             */
-
-            if (i == this._binomialQueue.size()) {
+            if (this._binomialQueue.isEmpty()) {
                 growQueue();
-            }
-
-            /*
-             * Si encuentro una posicion vacia en la cola, me inserto en ella.
-             */
-
-            if (this._binomialQueue.get(i) == null) {
-                this._binomialQueue.set(i, newNode);
+                this._binomialQueue.set(i, node);
                 return;
             }
 
-            /*
-             * Si la posicion ya tiene un elemento, uno los 2 arboles y sigo
-             * iterando.
-             */
 
-            newNode = mergeNodes(newNode, this._binomialQueue.get(i));
+            if (this._binomialQueue.get(i) == null) {
+                this._binomialQueue.set(i, node);
+                return;
+            }
+
+            if (i == this._binomialQueue.size() - 1) {
+                growQueue();
+            }
+
+
+            node = joinNodes(this._binomialQueue.get(i), node);
             this._binomialQueue.set(i, null);
-
         }
+
+
     }
 
     public void deleteItem(int item) {
     }
 
-    public List<Node> getBinomialQueue() {
+    public ArrayList<GenericNode> getBinomialQueue() {
         return this._binomialQueue;
     }
 }
