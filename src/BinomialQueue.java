@@ -1,5 +1,6 @@
 
 import java.util.ArrayList;
+import javax.lang.model.element.Element;
 
 /**
  *
@@ -32,10 +33,12 @@ public class BinomialQueue {
     private GenericNode joinNodes(GenericNode p, GenericNode q) {
 
         if (p.getValue() < q.getValue()) {
+            q.setParent(p);
             p.addChild(q);
             return p;
         }
 
+        p.setParent(q);
         q.addChild(p);
         return q;
     }
@@ -79,5 +82,53 @@ public class BinomialQueue {
 
     public ArrayList<GenericNode> getBinomialQueue() {
         return this._binomialQueue;
+    }
+
+
+    private GenericNode find(int value) {
+        return find(value, this._binomialQueue);
+
+    }
+
+    private GenericNode find(int value, ArrayList<GenericNode> nodeQueue) {
+
+        if (nodeQueue == null) {
+            return null;
+        }
+
+        GenericNode element = null;
+
+        for (GenericNode node : nodeQueue) {
+            if (node != null) {
+                if (node.getValue() == value) {
+                    element = node;
+                    break;
+                } else {
+                    if (node.getValue() < value) {
+                        element = find(value, node.getChildren());
+                    }
+                }
+            }
+        }
+        return element;
+    }
+
+    public void moveToTop(int value) {
+        swapUp(find(value));
+    }
+
+    public void swapUp(GenericNode node) {
+
+        GenericNode parent = node.getParent();
+
+        if (parent == null) {
+            return;
+        }
+
+        int valueHolder = node.getValue();
+
+        node.setValue(parent.getValue());
+        parent.setValue(valueHolder);
+        swapUp(parent);
     }
 }

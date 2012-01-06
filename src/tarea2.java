@@ -3,7 +3,6 @@
  *
  * @author Erwin Alvarez C <ealvarez at dcc.uchile.cl>
  */
-
 public class tarea2 {
 
     /**
@@ -11,14 +10,21 @@ public class tarea2 {
      */
     public static void main(String[] args) {
         // TODO code application logic here    
-        
-        
+
+
         BinomialQueue b = new BinomialQueue();
+
+
+        int[] elements = {3, 7, 6, 5, 1, 8, 2, 9, 4, 6};
+
+
+        for (int i : elements) {
+            b.insertItem(i);
+        }
         
-        b.insertItem(0);
-        b.insertItem(1);
-        b.insertItem(2);
-        b.insertItem(3);
+        b.moveToTop(6);
         
+
+        System.out.println("olo");
     }
 }
