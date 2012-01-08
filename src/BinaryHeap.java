@@ -18,6 +18,13 @@ public class BinaryHeap implements PriorityQueue {
     public boolean isEmpty() {
         return m_size == 0;
     }
+    
+    @Override
+    public Node removeMin(){
+    
+        return null;
+    }
+    
 
     public boolean isFull() {
         return m_elements.length == m_size + 1;

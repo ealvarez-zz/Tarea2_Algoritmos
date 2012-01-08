@@ -21,7 +21,7 @@ public class tarea2 {
 
         System.out.println("Instancia Random:");
         for (int[] currentN : n) {
-            System.out.println("N = 2^"+(int)(Math.log(currentN[0])/Math.log(2)));
+            System.out.println("N = 2^" + (int) (Math.log(currentN[0]) / Math.log(2)));
             for (int i : k) {
                 Test binomialQueueTest = new Test(currentN[0], currentN[1], new BinomialQueue());
 
@@ -36,7 +36,7 @@ public class tarea2 {
 
         System.out.println("Instancia Random:");
         for (int[] currentN : n) {
-            System.out.println("N = 2^"+(int)(Math.log(currentN[0])/Math.log(2)));
+            System.out.println("N = 2^" + (int) (Math.log(currentN[0]) / Math.log(2)));
             for (int i : k) {
                 Test binomialQueueTest = new Test(currentN[0], currentN[1], new BinomialQueue());
 
