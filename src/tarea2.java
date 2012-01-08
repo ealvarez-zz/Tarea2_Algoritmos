@@ -29,12 +29,13 @@ public class tarea2 {
                 long[] results = binomialQueueTest.runRandom(i);
                 testTime = System.nanoTime() - testTime;
 
+                System.out.println("k = " + i);
                 System.out.println(Arrays.toString(results));
-                System.out.println("Tiempo de ejecucion para k=" + i + ": " + testTime / (int) Math.pow(10, 9));
+                System.out.println("Tiempo de ejecucion para k=" + i + ": " + testTime);
             }
         }
 
-        System.out.println("Instancia Random:");
+        System.out.println("Instancia Semiordenada:");
         for (int[] currentN : n) {
             System.out.println("N = 2^" + (int) (Math.log(currentN[0]) / Math.log(2)));
             for (int i : k) {
@@ -44,8 +45,10 @@ public class tarea2 {
                 long[] results = binomialQueueTest.runSemiOrdenered(i);
                 testTime = System.nanoTime() - testTime;
 
+
+                System.out.println("k = " + i);
                 System.out.println(Arrays.toString(results));
-                System.out.println("Tiempo de ejecucion para k=" + i + ": " + testTime / (int) Math.pow(10, 9));
+                System.out.println("Tiempo de ejecucion para k=" + i + ": " + testTime);
             }
         }
 

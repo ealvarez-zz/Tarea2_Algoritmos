@@ -5,7 +5,7 @@ public interface PriorityQueue {
 
     public abstract void remove(long value);
     
-    public abstract Node removeMin();
+    public abstract void removeMin();
 
     public void reset(int capacity);
 }

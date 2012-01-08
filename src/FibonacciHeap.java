@@ -149,7 +149,7 @@ public class FibonacciHeap implements PriorityQueue {
      *
      * @return node with the smallest key
      */
-    public Node removeMin() {
+    public void removeMin() {
         Node z = m_min;
 
         if (z != null) {
@@ -192,7 +192,7 @@ public class FibonacciHeap implements PriorityQueue {
             m_n--;
         }
 
-        return z;
+//        return z;
     }
 
     /**

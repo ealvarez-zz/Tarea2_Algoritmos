@@ -20,9 +20,8 @@ public class BinaryHeap implements PriorityQueue {
     }
     
     @Override
-    public Node removeMin(){
-    
-        return null;
+    public void removeMin(){
+        this.pop();
     }
     
 
@@ -75,7 +74,7 @@ public class BinaryHeap implements PriorityQueue {
             return -1;
         }
     }
-
+    
     public long pop() {
         long result = peek();
         m_elements[1] = m_elements[m_size--];

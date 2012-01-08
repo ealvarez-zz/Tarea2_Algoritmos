@@ -214,9 +214,24 @@ class pruebas {
 
 //        System.out.println("======= BinaryHeap ========");
 //
-//        BinaryHeap bh = new BinaryHeap();
+//        BinaryHeap fh = new BinaryHeap();
+//        n = (int) Math.pow(2, 11);
+//        max_intervalo = (int) Math.pow(2, 16);
 //
-//        Test(n, max_intervalo, bh);
+//        Test(n, max_intervalo, fh);
+//
+//        n = (int) Math.pow(2, 19);
+//        max_intervalo = (int) Math.pow(2, 24);
+//        Test(n, max_intervalo, fh);
+//        
+//        n = (int) Math.pow(2, 11);
+//        max_intervalo = (int) Math.pow(2, 16);
+//
+//        Test2(n, max_intervalo, fh);
+//
+//        n = (int) Math.pow(2, 19);
+//        max_intervalo = (int) Math.pow(2, 24);
+//        Test2(n, max_intervalo, fh);
 
         System.out.println("======= FibonacciHeap ========");
 
@@ -226,18 +241,18 @@ class pruebas {
 
         Test(n, max_intervalo, fh);
 
-        n = (int) Math.pow(2, 19);
-        max_intervalo = (int) Math.pow(2, 24);
-        Test(n, max_intervalo, fh);
+//        n = (int) Math.pow(2, 19);
+//        max_intervalo = (int) Math.pow(2, 24);
+//        Test(n, max_intervalo, fh);
         
         n = (int) Math.pow(2, 11);
         max_intervalo = (int) Math.pow(2, 16);
 
         Test2(n, max_intervalo, fh);
 
-        n = (int) Math.pow(2, 19);
-        max_intervalo = (int) Math.pow(2, 24);
-        Test2(n, max_intervalo, fh);
+//        n = (int) Math.pow(2, 19);
+//        max_intervalo = (int) Math.pow(2, 24);
+//        Test2(n, max_intervalo, fh);
         
         
         
