@@ -16,7 +16,7 @@ public class GenericNode {
         this._children = new ArrayList<GenericNode>();
         this._parent = null;
     }
-    
+
     public GenericNode(int value, GenericNode parent) {
         this._value = value;
         this._children = new ArrayList<GenericNode>();
@@ -61,7 +61,35 @@ public class GenericNode {
     public GenericNode getParent() {
         return this._parent;
     }
-    
-    
 
+    @Override
+    public String toString() {
+
+        String toString = "";
+        
+        if (this._children.isEmpty())
+            return this.getValue() + "\n";
+
+        for (GenericNode node : this._children) {
+            toString += node.printParents(node, "");
+            toString += node.getValue();
+            toString += "\n";
+            if (!node.getChildren().isEmpty()) {
+                toString += node.toString();
+            }
+        }
+
+
+        return toString;
+    }
+
+    private String printParents(GenericNode node, String parents) {
+
+        if (node.getParent() != null) {
+            return printParents(node.getParent(), node.getParent().getValue() + " --> " + parents);
+        }
+
+
+        return parents;
+    }
 }
