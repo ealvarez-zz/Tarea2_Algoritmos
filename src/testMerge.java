@@ -23,13 +23,13 @@ public class testMerge {
         for (int size : n) {
             BinomialQueue b1 = new BinomialQueue();
             BinomialQueue b2 = new BinomialQueue();
-            instance = instanceGenerator.createRandomInstance(size / 2, size);
+            instance = instanceGenerator.createRandomInstance(size / 2, size - 1);
 
             for (int element : instance) {
                 b1.insert(element);
             }
 
-            instance = instanceGenerator.createRandomInstance(size / 2, size);
+            instance = instanceGenerator.createRandomInstance(size / 2, size - 1);
 
             for (int element : instance) {
                 b2.insert(element);
@@ -43,19 +43,19 @@ public class testMerge {
 
 
         }
-        
+
         System.out.println("");
         System.out.println("---> Fibonacci Heap");
         for (int size : n) {
             FibonacciHeap f1 = new FibonacciHeap();
             FibonacciHeap f2 = new FibonacciHeap();
-            instance = instanceGenerator.createRandomInstance(size / 2, size);
+            instance = instanceGenerator.createRandomInstance(size / 2, size - 1);
 
             for (int element : instance) {
                 f1.add(element);
             }
 
-            instance = instanceGenerator.createRandomInstance(size / 2, size);
+            instance = instanceGenerator.createRandomInstance(size / 2, size - 1);
 
             for (int element : instance) {
                 f2.add(element);
