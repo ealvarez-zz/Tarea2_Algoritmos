@@ -16,7 +16,7 @@ public class tarea2 {
         Test binomialQueueTest = new Test((int) Math.pow(2, 19), (int) Math.pow(2, 24), new BinomialQueue());
 
         long testTime = System.nanoTime();
-        long[] results = binomialQueueTest.runRandom(7);
+        long[] results = binomialQueueTest.runRandom(1);
         testTime = System.nanoTime() - testTime;
 
 
