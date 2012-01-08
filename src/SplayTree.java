@@ -1,6 +1,8 @@
 
-public class SplayTree implements Tarea2Structure{
+public class SplayTree implements Tarea2Structure {
+
     NodeBST root;
+
     /**
      * Genera un arbol vacio
      */
@@ -57,11 +59,12 @@ public class SplayTree implements Tarea2Structure{
     /**
      * Borra el minimo del arbol
      */
-    public void deleteMin(){
+    public void deleteMin() {
         NodeBST tempNode = root;
 
-        if(tempNode == null)
+        if (tempNode == null) {
             return;
+        }
 
         //avanzo hasta el hijo más a la izquierda
         while (tempNode != null) {
@@ -72,24 +75,21 @@ public class SplayTree implements Tarea2Structure{
         }
 
         //si no tiene hijo derecho lo borro
-        if(tempNode.getRightChild() == null){
+        if (tempNode.getRightChild() == null) {
             //si tiene padre
-            if(tempNode.getParent() != null){
+            if (tempNode.getParent() != null) {
                 tempNode.getParent().setLeftChild(null);
                 tempNode = null;
-            }
-            else{
+            } else {
                 //no tiene padre => es la raiz
                 tempNode = null;
                 root = null;
             }
-        }
-        else{
-            if(tempNode.getParent() != null){
+        } else {
+            if (tempNode.getParent() != null) {
                 tempNode.getParent().setLeftChild(tempNode.getRightChild());
                 tempNode.getRightChild().setParent(tempNode.getParent());
-            }
-            else{
+            } else {
                 //no tiene padre => es la raiz
                 tempNode.getRightChild().setParent(null);
                 root = tempNode.getRightChild();
@@ -104,7 +104,7 @@ public class SplayTree implements Tarea2Structure{
         if (root == null) {
             return;
         }
-        if (root.getValue() == value){
+        if (root.getValue() == value) {
             root = null;
             return;
         }
@@ -115,10 +115,11 @@ public class SplayTree implements Tarea2Structure{
                 //si no tiene hijos, simplemente lo borro
                 if (tempNode.getLeftChild() == null
                         && tempNode.getRightChild() == null) {
-                    if(tempNode.getParent().getLeftChild() == tempNode)
+                    if (tempNode.getParent().getLeftChild() == tempNode) {
                         tempNode.getParent().setLeftChild(null);
-                    else
+                    } else {
                         tempNode.getParent().setRightChild(null);
+                    }
                     tempNode = null;
                     return;
                 } else {
@@ -208,14 +209,15 @@ public class SplayTree implements Tarea2Structure{
         NodeBST parent = (NodeBST) node.getParent();
         NodeBST greatParent = (NodeBST) parent.getParent();
 
-        if (greatGreatParent.getLeftChild() == greatParent) {
-            greatGreatParent.setLeftChild(node);
-        } else {
-            if (greatGreatParent.getRightChild() == greatParent) {
-                greatGreatParent.setRightChild(node);
+        if (greatGreatParent != null) {
+            if (greatGreatParent.getLeftChild() == greatParent) {
+                greatGreatParent.setLeftChild(node);
+            } else {
+                if (greatGreatParent.getRightChild() == greatParent) {
+                    greatGreatParent.setRightChild(node);
+                }
             }
         }
-
         //son hijos izquierdos
         if (greatParent.getLeftChild() == parent
                 && parent.getLeftChild() == node) {
@@ -248,12 +250,13 @@ public class SplayTree implements Tarea2Structure{
     private void zigZag(NodeBST node, NodeBST greatGreatParent) {
         NodeBST parent = (NodeBST) node.getParent();
         NodeBST greatParent = (NodeBST) parent.getParent();
-
-        if (greatGreatParent.getLeftChild() == greatParent) {
-            greatGreatParent.setLeftChild(node);
-        } else {
-            if (greatGreatParent.getRightChild() == greatParent) {
-                greatGreatParent.setRightChild(node);
+        if (greatGreatParent != null) {
+            if (greatGreatParent.getLeftChild() == greatParent) {
+                greatGreatParent.setLeftChild(node);
+            } else {
+                if (greatGreatParent.getRightChild() == greatParent) {
+                    greatGreatParent.setRightChild(node);
+                }
             }
         }
 
@@ -296,14 +299,15 @@ public class SplayTree implements Tarea2Structure{
                 } else {
                     greatGreatParent = null;
                 }
-
-                if ((greatParent.getLeftChild() == parent
-                        && parent.getLeftChild() == node)
-                        || (greatParent.getRightChild() == parent
-                        && parent.getRightChild() == node)) {
-                    zigZig(node, greatGreatParent);
-                } else {
-                    zigZag(node, greatGreatParent);
+                if (greatParent != null) {
+                    if ((greatParent.getLeftChild() == parent
+                            && parent.getLeftChild() == node)
+                            || (greatParent.getRightChild() == parent
+                            && parent.getRightChild() == node)) {
+                        zigZig(node, greatGreatParent);
+                    } else {
+                        zigZag(node, greatGreatParent);
+                    }
                 }
             }
         }
@@ -336,14 +340,15 @@ public class SplayTree implements Tarea2Structure{
     }
 
     public void print(NodeBST node) {
-        if(node != null){
+        if (node != null) {
             node.print();
-            if(node.getLeftChild() != null)
+            if (node.getLeftChild() != null) {
                 print(node.getLeftChild());
-            if(node.getRightChild() != null)
+            }
+            if (node.getRightChild() != null) {
                 print(node.getRightChild());
+            }
         }
 
     }
-
 }

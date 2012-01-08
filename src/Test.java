@@ -1,3 +1,7 @@
+/**
+*
+* @author Erwin Alvarez C <ealvarez at dcc.uchile.cl>
+*/
 public class Test {
 
     private int k;
@@ -11,19 +15,20 @@ public class Test {
     public Test(int n, int max, Tarea2Structure structure) {
         this.n = n;
         this.max = max;
-        this.size = 3 * n * k;
         this.instanceGenerator = new InstanceFactory();
         this.structure = structure;
     }
 
     public long[] runRandom(int k) {
         this.k = k;
+        this.size = 3 * n * k;
         this.instance = this.instanceGenerator.createRandomInstance(this.max, this.size);
         return run(k);
     }
 
     public long[] runSemiOrdenered(int k) {
         this.k = k;
+        this.size = 3 * n * k;
         this.instance = this.instanceGenerator.createSemiOrdeneredInstance(this.max, this.size);
         return run(k);
     }
@@ -34,43 +39,44 @@ public class Test {
         long secondTest = 0;
 
 
+        int instanceIndex = 0;
+
+        firstTest = System.nanoTime();
         for (int i = 0; i < this.n; i++) {
 
-            firstTest = System.nanoTime();
-
             for (int j = 0; j < k; j++) {
-                this.structure.insert(i);
+                this.structure.insert(this.instance[instanceIndex++]);
             }
             for (int j = 0; j < k; j++) {
                 this.structure.deleteMin();
             }
             for (int j = 0; j < k; j++) {
-                this.structure.insert(i);
+                this.structure.insert(this.instance[instanceIndex++]);
             }
 
-            firstTest = System.nanoTime() - firstTest;
         }
+        firstTest = System.nanoTime() - firstTest;
 
 
+        secondTest = System.nanoTime();
 
         for (int i = 0; i < this.n; i++) {
 
-            secondTest = System.nanoTime();
 
             for (int j = 0; j < k; j++) {
                 this.structure.deleteMin();
             }
             for (int j = 0; j < k; j++) {
-                this.structure.insert(i);
+                this.structure.insert(instanceIndex++);
             }
             for (int j = 0; j < k; j++) {
                 this.structure.deleteMin();
             }
 
-            secondTest = System.nanoTime() - secondTest;
         }
+        secondTest = System.nanoTime() - secondTest;
 
 
-        return new long[]{firstTest / this.n, secondTest / this.n};
+        return new long[]{firstTest, secondTest};
     }
 }
