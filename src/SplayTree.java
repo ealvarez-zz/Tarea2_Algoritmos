@@ -1,6 +1,6 @@
 
-public class SplayTree extends Tree {
-
+public class SplayTree implements Tarea2Structure{
+    NodeBST root;
     /**
      * Genera un arbol vacio
      */
@@ -52,19 +52,25 @@ public class SplayTree extends Tree {
             }
         }
     }
+
+    @Override
     /**
      * Borra el minimo del arbol
      */
-    public void delete(){
+    public void deleteMin(){
         NodeBST tempNode = root;
-        
+
+        if(tempNode == null)
+            return;
+
         //avanzo hasta el hijo más a la izquierda
         while (tempNode != null) {
             if (tempNode.getLeftChild() == null) {
                 break;
             }
-            tempNode = tempNode.getRightChild();
+            tempNode = tempNode.getLeftChild();
         }
+
         //si no tiene hijo derecho lo borro
         if(tempNode.getRightChild() == null){
             //si tiene padre
@@ -91,7 +97,6 @@ public class SplayTree extends Tree {
         }
     }
 
-    @Override
     /**Borra los nodos igual que en un arbol de busqueda binaria
      * @param value
      */
