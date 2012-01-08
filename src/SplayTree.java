@@ -1,5 +1,6 @@
 
 public class SplayTree extends Tree {
+
     /**
      * Genera un arbol vacio
      */
@@ -15,14 +16,13 @@ public class SplayTree extends Tree {
         //se inserta como en un abb
         if (root == null) {
             root = new NodeBST(value);
-            splay(root);
             return;
         }
 
         NodeBST tempNode = root;
-        while (root != null) {
+        while (tempNode != null) {
             //el valor ya se encuentra en el arbol
-            if(value == tempNode.getValue()){
+            if (value == tempNode.getValue()) {
                 splay(tempNode);
                 return;
             }
@@ -52,77 +52,116 @@ public class SplayTree extends Tree {
             }
         }
     }
+    /**
+     * Borra el minimo del arbol
+     */
+    public void delete(){
+        NodeBST tempNode = root;
+        
+        //avanzo hasta el hijo más a la izquierda
+        while (tempNode != null) {
+            if (tempNode.getLeftChild() == null) {
+                break;
+            }
+            tempNode = tempNode.getRightChild();
+        }
+        //si no tiene hijo derecho lo borro
+        if(tempNode.getRightChild() == null){
+            //si tiene padre
+            if(tempNode.getParent() != null){
+                tempNode.getParent().setLeftChild(null);
+                tempNode = null;
+            }
+            else{
+                //no tiene padre => es la raiz
+                tempNode = null;
+                root = null;
+            }
+        }
+        else{
+            if(tempNode.getParent() != null){
+                tempNode.getParent().setLeftChild(tempNode.getRightChild());
+                tempNode.getRightChild().setParent(tempNode.getParent());
+            }
+            else{
+                //no tiene padre => es la raiz
+                tempNode.getRightChild().setParent(null);
+                root = tempNode.getRightChild();
+            }
+        }
+    }
 
     @Override
     /**Borra los nodos igual que en un arbol de busqueda binaria
      * @param value
      */
     public void delete(int value) {
-        if(root == null)
+        if (root == null) {
             return;
-        
+        }
+        if (root.getValue() == value){
+            root = null;
+            return;
+        }
         NodeBST tempNode = root;
-        while(tempNode != null){
+        while (tempNode != null) {
             //es lo que quiero borrar
-            if(value == tempNode.getValue()){
+            if (value == tempNode.getValue()) {
                 //si no tiene hijos, simplemente lo borro
-                if(tempNode.getLeftChild() == null 
-                        && tempNode.getRightChild() == null){
-                        tempNode = null;
-                        return;
-                }
-                else{
+                if (tempNode.getLeftChild() == null
+                        && tempNode.getRightChild() == null) {
+                    if(tempNode.getParent().getLeftChild() == tempNode)
+                        tempNode.getParent().setLeftChild(null);
+                    else
+                        tempNode.getParent().setRightChild(null);
+                    tempNode = null;
+                    return;
+                } else {
                     //si tiene 2 hijos
                     //NodeBST derecho = tempNode.getRightChild();
                     //NodeBST izquierdo = tempNode.getLeftChild();
-                    if(tempNode.getLeftChild() != null 
-                            && tempNode.getRightChild() != null){
-                            changeWithRightMostNodeFromLeftChild(tempNode);
-                    }
-                    //si tiene sólo un hijo, simplemente lo replazo por el hijo
-                    else{
+                    if (tempNode.getLeftChild() != null
+                            && tempNode.getRightChild() != null) {
+                        changeWithRightMostNodeFromLeftChild(tempNode);
+                    } //si tiene sólo un hijo, simplemente lo replazo por el hijo
+                    else {
                         //es el hijo izquiedo
-                        if(tempNode.getLeftChild() != null){
+                        if (tempNode.getLeftChild() != null) {
                             tempNode.getLeftChild().setParent(tempNode.getParent());
                             //es el hijo izquierdo de su padre
-                            if(tempNode.getParent().getLeftChild() == tempNode){
+                            if (tempNode.getParent().getLeftChild() == tempNode) {
                                 tempNode.getParent().setLeftChild(tempNode.getLeftChild());
-                            }
-                            else{
+                            } else {
                                 tempNode.getParent().setRightChild(tempNode.getLeftChild());
                             }
                             return;
-                        }
-                        //es hijo derecho
-                        else{
+                        } //es hijo derecho
+                        else {
                             tempNode.getRightChild().setParent(tempNode.getParent());
                             //es el hijo izquierdo de su padre
-                            if(tempNode.getParent().getLeftChild() == tempNode){
+                            if (tempNode.getParent().getLeftChild() == tempNode) {
                                 tempNode.getParent().setLeftChild(tempNode.getRightChild());
-                            }
-                            else{
+                            } else {
                                 tempNode.getParent().setRightChild(tempNode.getRightChild());
                             }
                         }
                     }
                 }
-            }
-            else{
-                if(value < tempNode.getValue()){
+            } else {
+                if (value < tempNode.getValue()) {
                     //si el hijo izquierdo está vacio
-                    if(tempNode.getLeftChild() == null){
+                    if (tempNode.getLeftChild() == null) {
                         return;
                     }
                     tempNode = tempNode.getLeftChild();
-                }
-                else{
+                } else {
                     //si el hijo derecho está vacio
-                    if(tempNode.getRightChild() == null){
+                    if (tempNode.getRightChild() == null) {
                         return;
                     }
                     tempNode = tempNode.getRightChild();
                 }
-            
+
             }
         }
     }
@@ -141,7 +180,7 @@ public class SplayTree extends Tree {
             node.setRightChild(parent);
 
         } else {
-            if (parent.getLeftChild() == node) {
+            if (parent.getRightChild() == node) {
                 //el que era mi hijo izquierdo, ahora es el hijo derecho de mi padre
                 parent.setRightChild(node.getLeftChild());
                 //el que era mi padre ahora es mi hijo izquierdo
@@ -241,12 +280,18 @@ public class SplayTree extends Tree {
     private void splay(NodeBST node) {
         while (node.getParent() != null) {
             NodeBST parent = (NodeBST) node.getParent();
-            NodeBST greatParent = (NodeBST) parent.getParent();
-            NodeBST greatGreatParent = (NodeBST) greatParent.getParent();
             //el padre del nodo es la raiz
             if (parent == root) {
                 zig(node);
             } else {
+                NodeBST greatParent = (NodeBST) parent.getParent();
+                NodeBST greatGreatParent;
+                if (greatParent != null) {
+                    greatGreatParent = (NodeBST) greatParent.getParent();
+                } else {
+                    greatGreatParent = null;
+                }
+
                 if ((greatParent.getLeftChild() == parent
                         && parent.getLeftChild() == node)
                         || (greatParent.getRightChild() == parent
@@ -257,17 +302,19 @@ public class SplayTree extends Tree {
                 }
             }
         }
+        //llegué a la raiz y debo ser la raiz
+        root = node;
     }
 
     /**
      * Cambia el nodo dado por el hijo de más a la derecha de su hijo izquierdo
      * @param node
      */
-    private void changeWithRightMostNodeFromLeftChild(NodeBST node){
+    private void changeWithRightMostNodeFromLeftChild(NodeBST node) {
         NodeBST tempNode = node.getLeftChild();
         //avanzo hasta el hijo más a la derecha de mi hijo izquierdo
-        while (tempNode != null){
-            if(tempNode.getRightChild() == null){
+        while (tempNode != null) {
+            if (tempNode.getRightChild() == null) {
                 break;
             }
             tempNode = tempNode.getRightChild();
@@ -275,11 +322,23 @@ public class SplayTree extends Tree {
 
         //su hijo, es el hijo del que era su padre
         tempNode.getParent().setRightChild(tempNode.getLeftChild());
-        if(tempNode.getLeftChild() != null){
+        if (tempNode.getLeftChild() != null) {
             tempNode.getLeftChild().setParent(tempNode.getParent());
         }
 
         tempNode.setParent(node.getParent());
         node.getParent().setLeftChild(tempNode);
     }
+
+    public void print(NodeBST node) {
+        if(node != null){
+            node.print();
+            if(node.getLeftChild() != null)
+                print(node.getLeftChild());
+            if(node.getRightChild() != null)
+                print(node.getRightChild());
+        }
+
+    }
+
 }

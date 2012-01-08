@@ -1,37 +1,43 @@
-
-import java.util.ArrayList;
-
 public class NodeBST extends GenericNode{
 
     public NodeBST(int value){
         super(value);
+        this.getChildren().add(0, null);
+        this.getChildren().add(1, null);
     }
     
     public NodeBST(int value, NodeBST node){
         super(value, (GenericNode)node);
+        this.getChildren().add(0, null);
+        this.getChildren().add(1, null);
     }
     
     public NodeBST getLeftChild(){
-        return (NodeBST)this.getChildren().get(0);
+        if(this.getChildren().size() >= 1)
+            return (NodeBST)this.getChildren().get(0);
+        else
+            return null;
     }
 
     public NodeBST getRightChild(){
-        return (NodeBST)this.getChildren().get(1);
+        if(this.getChildren().size() >= 2)
+            return (NodeBST)this.getChildren().get(1);
+        else
+            return null;
     }
 
     @Override
     public NodeBST getParent(){
-        return (NodeBST)this.getParent();
+        return (NodeBST)super.getParent();
     }
 
     public void setLeftChild(NodeBST node){
-        ArrayList<GenericNode> childrens = this.getChildren();
-        childrens.add(0, node);
-        this.setChildren(childrens);
+        this.getChildren().set(0, node);
     }
     public void setRightChild(NodeBST node){
-        ArrayList<GenericNode> childrens = this.getChildren();
-        childrens.add(1, node);
-        this.setChildren(childrens);
+        this.getChildren().set(1, node);
+    }
+    public void print(){
+        System.out.println("valor: "+ this.getValue());
     }
 }
