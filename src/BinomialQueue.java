@@ -5,7 +5,7 @@ import java.util.ArrayList;
  *
  * @author Erwin Alvarez C <ealvarez at dcc.uchile.cl>
  */
-public class BinomialQueue {
+public class BinomialQueue implements Tarea2Structure {
 
     private ArrayList<GenericNode> _queue;
 
@@ -50,7 +50,8 @@ public class BinomialQueue {
      * Inserta un elemento en la cola
      * @param item Elemento a insertar
      */
-    public void insertItem(int item) {
+    @Override
+    public void insert(int item) {
 
         GenericNode node = new GenericNode(item);
 
@@ -127,7 +128,7 @@ public class BinomialQueue {
         merge(remoteQueue, carry, index + 1);
     }
 
-    public void deleteItem(int item) {
+    public void delete(int item) {
 
         GenericNode nodeToDelete = find(item);
         nodeToDelete.setValue(-42);
@@ -136,6 +137,7 @@ public class BinomialQueue {
 
     }
 
+    @Override
     public void deleteMin() {
 
         if (this._queue == null) {

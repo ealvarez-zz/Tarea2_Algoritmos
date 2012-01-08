@@ -66,9 +66,10 @@ public class GenericNode {
     public String toString() {
 
         String toString = "";
-        
-        if (this._children.isEmpty())
+
+        if (this._children.isEmpty()) {
             return this.getValue() + "\n";
+        }
 
         for (GenericNode node : this._children) {
             toString += node.printParents(node, "");

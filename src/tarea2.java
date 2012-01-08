@@ -1,4 +1,6 @@
 
+import java.util.Arrays;
+
 /**
  *
  * @author Erwin Alvarez C <ealvarez at dcc.uchile.cl>
@@ -9,43 +11,18 @@ public class tarea2 {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here    
 
 
-        BinomialQueue b = new BinomialQueue();
-        BinomialQueue b2 = new BinomialQueue();
+        Test binomialQueueTest = new Test((int) Math.pow(2, 19), (int) Math.pow(2, 24), new BinomialQueue());
+
+        long testTime = System.nanoTime();
+        long[] results = binomialQueueTest.runRandom(7);
+        testTime = System.nanoTime() - testTime;
 
 
-        int[] elements = {3, 7, 6, 5, 1, 8, 2, 9, 4, 6};
-        int[] elements2 = {6, 2, 8, 5, 3, 1};
-
-        for (int i : elements) {
-            b.insertItem(i);
-        }
-
-        for (int i : elements2) {
-            b2.insertItem(i);
-        }
+        System.out.println(Arrays.toString(results));
+        System.out.println("Tiempo de ejecucion: " + testTime / (int) Math.pow(10, 9));
 
 
-//        System.out.println("Cola Binomial b:");
-//        System.out.println(b);
-//        b.deleteMin();
-//        System.out.println("Luego de borrar el minimo:");
-//        System.out.println(b);
-//        System.out.println("Luego de borrar '5'");
-//        b.deleteItem(5);
-        
-        System.out.println("Cola Binomial b:");
-        System.out.println(b);
-        System.out.println("Cola Binomial b2:");
-        System.out.println(b2);
-        
-        
-        System.out.println("Merge");
-        b.merge(b2);
-        System.out.println(b);
-        
-        
     }
 }
