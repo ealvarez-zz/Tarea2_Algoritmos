@@ -43,16 +43,20 @@ public class Test {
 
         firstTest = System.nanoTime();
         for (int i = 0; i < this.n; i++) {
-
+            System.out.println("-------Iteracion " +i+"-------");
             for (int j = 0; j < k; j++) {
                 this.structure.insert(this.instance[instanceIndex++]);
             }
+            System.out.println("primeros inserts");
             for (int j = 0; j < k; j++) {
                 this.structure.deleteMin();
             }
+            System.out.println("delete");
             for (int j = 0; j < k; j++) {
                 this.structure.insert(this.instance[instanceIndex++]);
             }
+            System.out.println("segundos inserts");
+
 
         }
         firstTest = System.nanoTime() - firstTest;

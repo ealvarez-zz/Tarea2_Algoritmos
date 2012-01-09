@@ -185,7 +185,8 @@ public class SplayTree implements Tarea2Structure {
             //el que era mi padre ahora es mi hijo derecho
             node.setRightChild(parent);
 
-        } else {
+        }
+        else {
             if (parent.getRightChild() == node) {
                 //el que era mi hijo izquierdo, ahora es el hijo derecho de mi padre
                 parent.setRightChild(node.getLeftChild());
@@ -197,6 +198,9 @@ public class SplayTree implements Tarea2Structure {
         node.setParent(null);
         //ahora yo soy el padre de mi hijo
         parent.setParent(node);
+
+        //ahora soy la raiz
+        root = node;
     }
 
     /**
@@ -205,10 +209,11 @@ public class SplayTree implements Tarea2Structure {
      * @param node
      * @param greatGreatParent
      */
-    private void zigZig(NodeBST node, NodeBST greatGreatParent) {
+    private void zigZig(NodeBST node) {
         NodeBST parent = (NodeBST) node.getParent();
         NodeBST greatParent = (NodeBST) parent.getParent();
-
+        NodeBST greatGreatParent = (NodeBST) greatParent.getParent();
+        //si tiene bisabuelo
         if (greatGreatParent != null) {
             if (greatGreatParent.getLeftChild() == greatParent) {
                 greatGreatParent.setLeftChild(node);
@@ -217,6 +222,10 @@ public class SplayTree implements Tarea2Structure {
                     greatGreatParent.setRightChild(node);
                 }
             }
+        }
+        //si no tiene, entonces el abuelo es era la raiz
+        else{
+            root = node;
         }
         //son hijos izquierdos
         if (greatParent.getLeftChild() == parent
@@ -247,9 +256,11 @@ public class SplayTree implements Tarea2Structure {
      * @param node
      * @param greatGreatParent
      */
-    private void zigZag(NodeBST node, NodeBST greatGreatParent) {
+    private void zigZag(NodeBST node) {
         NodeBST parent = (NodeBST) node.getParent();
         NodeBST greatParent = (NodeBST) parent.getParent();
+        NodeBST greatGreatParent = (NodeBST) greatParent.getParent();
+        //si el nodo tiene bisabuelo
         if (greatGreatParent != null) {
             if (greatGreatParent.getLeftChild() == greatParent) {
                 greatGreatParent.setLeftChild(node);
@@ -259,7 +270,11 @@ public class SplayTree implements Tarea2Structure {
                 }
             }
         }
-
+        //si no tiene bisabuelo, entonces quedará como la raiz
+        else{
+            root = node;
+        }
+        //el padre es hijo izquierdo y el nodo es hijo derecho
         if (greatParent.getLeftChild() == parent
                 && parent.getRightChild() == node) {
             parent.setRightChild(node.getLeftChild());
@@ -286,33 +301,29 @@ public class SplayTree implements Tarea2Structure {
      * @param node
      */
     private void splay(NodeBST node) {
-        while (node.getParent() != null) {
-            NodeBST parent = (NodeBST) node.getParent();
-            //el padre del nodo es la raiz
-            if (parent == root) {
-                zig(node);
-            } else {
-                NodeBST greatParent = (NodeBST) parent.getParent();
-                NodeBST greatGreatParent;
-                if (greatParent != null) {
-                    greatGreatParent = (NodeBST) greatParent.getParent();
-                } else {
-                    greatGreatParent = null;
-                }
-                if (greatParent != null) {
-                    if ((greatParent.getLeftChild() == parent
-                            && parent.getLeftChild() == node)
-                            || (greatParent.getRightChild() == parent
-                            && parent.getRightChild() == node)) {
-                        zigZig(node, greatGreatParent);
-                    } else {
-                        zigZag(node, greatGreatParent);
-                    }
-                }
-            }
+        //si soy la raiz, terminé
+        if (node == root){
+            return;
         }
-        //llegué a la raiz y debo ser la raiz
-        root = node;
+        NodeBST parent = node.getParent();
+        if(parent == root){
+            zig(node);
+        }
+        else{
+            NodeBST greatParent = parent.getParent();
+            //ambos son hijos izquierdos o hijos derechos
+            if ((greatParent.getLeftChild() == parent
+                        && parent.getLeftChild() == node
+                        || (greatParent.getRightChild() == parent
+                        && parent.getRightChild() == node))){
+                        zigZig(node);
+            }
+            else{
+                zigZag(node);
+            }
+
+            splay(node);
+        }
     }
 
     /**
