@@ -182,14 +182,19 @@ public class SplayTree implements Tarea2Structure {
         if (parent.getLeftChild() == node) {
             //el que era mi hijo derecho, ahora es el hijo izquierdo de mi padre
             parent.setLeftChild(node.getRightChild());
+            if (parent.getLeftChild() != null) {
+                parent.getLeftChild().setParent(parent);
+            }
             //el que era mi padre ahora es mi hijo derecho
             node.setRightChild(parent);
 
-        }
-        else {
+        } else {
             if (parent.getRightChild() == node) {
                 //el que era mi hijo izquierdo, ahora es el hijo derecho de mi padre
                 parent.setRightChild(node.getLeftChild());
+                if (parent.getRightChild() != null) {
+                    parent.getRightChild().setParent(parent);
+                }
                 //el que era mi padre ahora es mi hijo izquierdo
                 node.setLeftChild(parent);
             }
@@ -217,37 +222,66 @@ public class SplayTree implements Tarea2Structure {
         if (greatGreatParent != null) {
             if (greatGreatParent.getLeftChild() == greatParent) {
                 greatGreatParent.setLeftChild(node);
+                forceChildren(greatGreatParent);
+
             } else {
                 if (greatGreatParent.getRightChild() == greatParent) {
                     greatGreatParent.setRightChild(node);
+                    forceChildren(greatGreatParent);
                 }
             }
-        }
-        //si no tiene, entonces el abuelo es era la raiz
-        else{
+        } //si no tiene, entonces el abuelo es era la raiz
+        else {
             root = node;
         }
         //son hijos izquierdos
         if (greatParent.getLeftChild() == parent
                 && parent.getLeftChild() == node) {
+
             parent.setLeftChild(node.getRightChild());
+            forceChildren(parent);
+
             greatParent.setLeftChild(parent.getRightChild());
+            forceChildren(greatParent);
+
             parent.setRightChild(greatParent);
+            forceChildren(parent);
+
             node.setRightChild(parent);
+            forceChildren(node);
+
         } else {
             //son hijos derechos
             if (greatParent.getRightChild() == parent
                     && parent.getRightChild() == node) {
+
                 parent.setRightChild(node.getLeftChild());
+                forceChildren(parent);
+
                 greatParent.setRightChild(parent.getLeftChild());
+                forceChildren(greatParent);
+
                 parent.setLeftChild(greatParent);
+                forceChildren(parent);
+
                 node.setLeftChild(parent);
+                forceChildren(node);
             }
         }
 
         node.setParent(greatGreatParent);
         parent.setParent(node);
         greatParent.setParent(parent);
+    }
+
+    private void forceChildren(NodeBST node) {
+        if (node.getLeftChild() != null) {
+            node.getLeftChild().setParent(node);
+        }
+        if (node.getRightChild() != null) {
+            node.getRightChild().setParent(node);
+        }
+
     }
 
     /**
@@ -264,30 +298,37 @@ public class SplayTree implements Tarea2Structure {
         if (greatGreatParent != null) {
             if (greatGreatParent.getLeftChild() == greatParent) {
                 greatGreatParent.setLeftChild(node);
+                forceChildren(greatGreatParent);
             } else {
                 if (greatGreatParent.getRightChild() == greatParent) {
                     greatGreatParent.setRightChild(node);
+                    forceChildren(greatGreatParent);
                 }
             }
-        }
-        //si no tiene bisabuelo, entonces quedará como la raiz
-        else{
+        } //si no tiene bisabuelo, entonces quedará como la raiz
+        else {
             root = node;
         }
         //el padre es hijo izquierdo y el nodo es hijo derecho
         if (greatParent.getLeftChild() == parent
                 && parent.getRightChild() == node) {
             parent.setRightChild(node.getLeftChild());
+            forceChildren(parent);
             greatParent.setLeftChild(node.getRightChild());
+            forceChildren(greatParent);
             node.setRightChild(greatParent);
             node.setLeftChild(parent);
+            forceChildren(node);
         } else {
             if (greatParent.getRightChild() == parent
                     && parent.getLeftChild() == node) {
                 parent.setLeftChild(node.getRightChild());
+                forceChildren(parent);
                 greatParent.setRightChild(node.getLeftChild());
+                forceChildren(greatParent);
                 node.setLeftChild(greatParent);
                 node.setRightChild(parent);
+                forceChildren(node);
             }
         }
 
@@ -302,23 +343,21 @@ public class SplayTree implements Tarea2Structure {
      */
     private void splay(NodeBST node) {
         //si soy la raiz, terminé
-        if (node == root){
+        if (node == root) {
             return;
         }
         NodeBST parent = node.getParent();
-        if(parent == root){
+        if (parent == root) {
             zig(node);
-        }
-        else{
+        } else {
             NodeBST greatParent = parent.getParent();
             //ambos son hijos izquierdos o hijos derechos
             if ((greatParent.getLeftChild() == parent
-                        && parent.getLeftChild() == node
-                        || (greatParent.getRightChild() == parent
-                        && parent.getRightChild() == node))){
-                        zigZig(node);
-            }
-            else{
+                    && parent.getLeftChild() == node
+                    || (greatParent.getRightChild() == parent
+                    && parent.getRightChild() == node))) {
+                zigZig(node);
+            } else {
                 zigZag(node);
             }
 
@@ -360,6 +399,31 @@ public class SplayTree implements Tarea2Structure {
                 print(node.getRightChild());
             }
         }
+
+    }
+
+    public boolean hasNullParent() {
+
+        return hasNullParent(this.root);
+
+    }
+
+    public boolean hasNullParent(NodeBST node) {
+
+        if (node == null || (node.getLeftChild() == null && node.getRightChild() == null)) {
+            return false;
+        }
+
+        if ((node.getLeftChild() != null && node.getLeftChild().getParent() != node) || (node.getRightChild() != null && node.getRightChild().getParent() != node)) {
+            return true;
+        } else {
+            return hasNullParent(node.getLeftChild()) || hasNullParent(node.getRightChild());
+
+        }
+
+
+
+
 
     }
 }

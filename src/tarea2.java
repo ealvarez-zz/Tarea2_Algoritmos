@@ -5,24 +5,51 @@ import java.util.Arrays;
  *
  * @author Erwin Alvarez C <ealvarez at dcc.uchile.cl>
  */
-
 public class tarea2 {
 
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        SplayTree tree = new SplayTree();
-        Test splayTreeTest = new Test((int) Math.pow(2, 19), (int) Math.pow(2, 24), tree);
+        int[] k = {1, 3, 7};
+        int[][] n = {
+            {(int) Math.pow(2, 11), (int) Math.pow(2, 16)},
+            {(int) Math.pow(2, 19), (int) Math.pow(2, 24)}
+        };
 
-        long testTime = System.nanoTime();
-        long[] results = splayTreeTest.runRandom(7);
-        testTime = System.nanoTime() - testTime;
+
+        System.out.println("Instancia Random:");
+        for (int[] currentN : n) {
+            System.out.println("N = 2^" + (int) (Math.log(currentN[0]) / Math.log(2)));
+            for (int i : k) {
+                Test binomialQueueTest = new Test(currentN[0], currentN[1], new SplayTree());
+
+                long testTime = System.nanoTime();
+                long[] results = binomialQueueTest.runRandom(i);
+                testTime = System.nanoTime() - testTime;
+
+                System.out.println("k = " + i);
+                System.out.println(Arrays.toString(results));
+                System.out.println("Tiempo de ejecucion para k=" + i + ": " + testTime);
+            }
+        }
+
+        System.out.println("Instancia Semiordenada:");
+        for (int[] currentN : n) {
+            System.out.println("N = 2^" + (int) (Math.log(currentN[0]) / Math.log(2)));
+            for (int i : k) {
+                Test binomialQueueTest = new Test(currentN[0], currentN[1], new SplayTree());
+
+                long testTime = System.nanoTime();
+                long[] results = binomialQueueTest.runSemiOrdenered(i);
+                testTime = System.nanoTime() - testTime;
 
 
-        System.out.println(Arrays.toString(results));
-        System.out.println("Tiempo de ejecucion: " + testTime / (int) Math.pow(10, 9));
-
+                System.out.println("k = " + i);
+                System.out.println(Arrays.toString(results));
+                System.out.println("Tiempo de ejecucion para k=" + i + ": " + testTime);
+            }
+        }
 
     }
 }
